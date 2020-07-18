@@ -7,9 +7,7 @@ podTemplate(containers: [
         stage('Compile') {
             container('jdk14') {
                 stage('Build a Maven project') {
-                    steps {
-                        sh './mvnw clean compile'
-                    }
+                    sh './mvnw clean compile'
                 }
             }
         }
@@ -17,9 +15,7 @@ podTemplate(containers: [
         stage('Test') {
             container('jdk14') {
                 stage('Build a Maven project') {
-                    steps {
-                        sh './mvnw test'
-                    }
+                    sh './mvnw test'
                 }
             }
         }
