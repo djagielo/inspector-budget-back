@@ -1,17 +1,26 @@
-pipeline {
-    agent any
-    triggers {
-        pollSCM '* * * * *'
-    }
-    stages {
+podTemplate(containers: [
+    containerTemplate(name: 'jdk14', image: 'openjdk:14.0.2-jdk', ttyEnabled: true, command: 'cat')
+  ],
+  volumes: [hostPathVolume(hostPath: '/home/dariusz/.m2', mountPath: '/root/.m2')]
+  ) {
+    node(POD_LABEL) {
         stage('Compile') {
-            steps {
-                sh './mvnw clean compile'
+            container('jdk14') {
+                stage('Build a Maven project') {
+                    steps {
+                        sh './mvnw clean compile'
+                    }
+                }
             }
         }
+
         stage('Test') {
-            steps {
-                sh './mvnw test'
+            container('jdk14') {
+                stage('Build a Maven project') {
+                    steps {
+                        sh './mvnw test'
+                    }
+                }
             }
         }
     }
