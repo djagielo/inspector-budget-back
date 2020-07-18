@@ -4,6 +4,10 @@ podTemplate(containers: [
   volumes: [hostPathVolume(hostPath: '/home/dariusz/.m2', mountPath: '/root/.m2')]
   ) {
     node(POD_LABEL) {
+        stage('Checkout') {
+            checkout scm
+        }
+
         stage('Compile') {
             container('jdk14') {
                 stage('Build a Maven project') {
